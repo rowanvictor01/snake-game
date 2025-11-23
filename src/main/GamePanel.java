@@ -1,39 +1,64 @@
 package main;
 
+import entities.Snake;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel implements Runnable {
 
     // Dimensions
-    private final int SCREEN_WIDTH = 800;
-    private final int SCREEN_HEIGHT = 600;
+    private static final int SCREEN_WIDTH = 800;
+    private static final int SCREEN_HEIGHT = 600;
+    private static final int UNIT_SIZE = 25;
+    private static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
 
-    // Time it takes to display each frame
-    private final long TARGET_FRAME_TIME = 1_000_000_000L / 60;
+    private boolean running = true;
 
-    private boolean running = false;
+    // Game Entities
+    private static Snake snake;
 
     public GamePanel() {
 
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setFocusable(true);
+        this.addKeyListener(new KeyHandler());
+
+        snake = new Snake(UNIT_SIZE, GAME_UNITS);
 
     }
 
     public void update() {
-        // code
+
+        snake.update();
+
+        // Call paintComponent After Updating
+        repaint();
+        Toolkit.getDefaultToolkit().sync();
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        // code
+
+        // Preparation
+        Graphics2D g2 = (Graphics2D) g;
+        super.paintComponent(g2);
+
+        // Draw Entities
+        snake.draw(g2);
+
     }
 
     // Game Loop
     @Override
     public void run() {
+
+        // Time it takes to display each frame
+        final long TARGET_FRAME_TIME = 1_000_000_000L / 60;
 
         long startTime = System.nanoTime();
 
@@ -57,6 +82,45 @@ public class GamePanel extends JPanel implements Runnable {
 
             update();
             startTime = System.nanoTime();
+
+        }
+
+    }
+
+    public class KeyHandler extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            // super.keyPressed(e);
+
+            switch(e.getKeyCode()) {
+
+                case KeyEvent.VK_UP:
+                    if(snake.getDirection() != 'D') {
+                        snake.setDirection('U');
+                    }
+                    break;
+
+                case KeyEvent.VK_DOWN:
+                    if(snake.getDirection() != 'U') {
+                        snake.setDirection('D');
+                    }
+                    break;
+
+                case KeyEvent.VK_LEFT:
+                    if(snake.getDirection() != 'R') {
+                        snake.setDirection('L');
+                    }
+                    break;
+
+                case KeyEvent.VK_RIGHT:
+                    if(snake.getDirection() != 'L') {
+                        snake.setDirection('R');
+                    }
+                    break;
+
+            }
 
         }
 
