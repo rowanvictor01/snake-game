@@ -21,6 +21,14 @@ public class Snake implements Entity{
 
     }
 
+    public void setDirection(char direction) {
+        this.direction = direction;
+    }
+
+    public char getDirection() {
+        return this.direction;
+    }
+
     private void movement() {
 
         for(int i = bodyParts - 1; i > 0; i--) {

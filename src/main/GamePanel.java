@@ -4,6 +4,8 @@ import entities.Snake;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -23,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setFocusable(true);
+        this.addKeyListener(new KeyHandler());
 
         snake = new Snake(UNIT_SIZE, GAME_UNITS);
 
@@ -79,6 +82,45 @@ public class GamePanel extends JPanel implements Runnable {
 
             update();
             startTime = System.nanoTime();
+
+        }
+
+    }
+
+    public class KeyHandler extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            // super.keyPressed(e);
+
+            switch(e.getKeyCode()) {
+
+                case KeyEvent.VK_UP:
+                    if(snake.getDirection() != 'D') {
+                        snake.setDirection('U');
+                    }
+                    break;
+
+                case KeyEvent.VK_DOWN:
+                    if(snake.getDirection() != 'U') {
+                        snake.setDirection('D');
+                    }
+                    break;
+
+                case KeyEvent.VK_LEFT:
+                    if(snake.getDirection() != 'R') {
+                        snake.setDirection('L');
+                    }
+                    break;
+
+                case KeyEvent.VK_RIGHT:
+                    if(snake.getDirection() != 'L') {
+                        snake.setDirection('R');
+                    }
+                    break;
+
+            }
 
         }
 
