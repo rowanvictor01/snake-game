@@ -1,11 +1,15 @@
 package main;
 
+import entities.Apple;
 import entities.Snake;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -15,10 +19,13 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int UNIT_SIZE = 25;
     private static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
 
-    private boolean running = true;
+    private static boolean running = true;
 
     // Game Entities
     private static Snake snake;
+    private static Apple apple;
+    private static Random random;
+    private static Map<Character, Integer> coordinates = new HashMap<>();
 
     public GamePanel() {
 
@@ -27,7 +34,22 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.addKeyListener(new KeyHandler());
 
+        random = new Random();
         snake = new Snake(UNIT_SIZE, GAME_UNITS);
+        Map<Character, Integer> appleCoords = newApple();
+        apple = new Apple(appleCoords.get('X'), appleCoords.get('Y'), UNIT_SIZE);
+
+    }
+
+    private Map newApple() {
+
+        int appleX = random.nextInt((int)(SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+        int appleY = random.nextInt((int)(SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+
+        coordinates.put('X', appleX);
+        coordinates.put('Y', appleY);
+
+        return coordinates;
 
     }
 
@@ -49,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g2);
 
         // Draw Entities
+        apple.draw(g2);
         snake.draw(g2);
 
     }
