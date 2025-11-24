@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -21,11 +19,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     private static boolean running = true;
 
+    private static int moveCounter = 0;
+    private static final int MOVE_DELAY = 6;
+
     // Game Entities
     private static Snake snake;
     private static Apple apple;
     private static Random random;
-    private static Map<Character, Integer> coordinates = new HashMap<>();
 
     public GamePanel() {
 
@@ -36,24 +36,58 @@ public class GamePanel extends JPanel implements Runnable {
 
         random = new Random();
         snake = new Snake(UNIT_SIZE, GAME_UNITS);
-        Map<Character, Integer> appleCoords = newApple();
-        apple = new Apple(appleCoords.get('X'), appleCoords.get('Y'), UNIT_SIZE);
+        Point newAppleCoords = newApple();
+        apple = new Apple(newAppleCoords.x, newAppleCoords.y, UNIT_SIZE);
 
     }
 
-    private Map newApple() {
+    private Point newApple() {
 
-        int appleX = random.nextInt((int)(SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
-        int appleY = random.nextInt((int)(SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+        // make sure new coords != to snake's coords
+        int appleX;
+        int appleY;
+        boolean isInvalid = false;
+        Point appleCoords = new Point();
 
-        coordinates.put('X', appleX);
-        coordinates.put('Y', appleY);
+        do {
 
-        return coordinates;
+            isInvalid = false;
+
+            appleX = random.nextInt((int)(SCREEN_WIDTH / UNIT_SIZE)) * UNIT_SIZE;
+            appleY = random.nextInt((int)(SCREEN_HEIGHT / UNIT_SIZE)) * UNIT_SIZE;
+            appleCoords.setLocation(appleX, appleY);
+
+            for(int i = 0; i < snake.getBodyCoords().size() - 1; i++) {
+
+                if(appleCoords.equals(snake.getBodyCoords().get(i)) || appleCoords.equals(snake.getHeadCoords())) {
+                    isInvalid = true;
+                }
+
+            }
+
+        } while(isInvalid);
+
+        return appleCoords;
+
+    }
+    
+    private void checkCollisions() {
+
+        // Snake and Apple Collision
+        if(snake.getHeadCoords().equals(apple.getCoords())) {
+            snake.increment();
+            apple.setCoords(newApple());
+        }
 
     }
 
     public void update() {
+
+        moveCounter++;
+        if(moveCounter >= MOVE_DELAY) {
+            checkCollisions();
+            moveCounter = 0;
+        }
 
         snake.update();
 
