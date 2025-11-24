@@ -79,17 +79,21 @@ public class GamePanel extends JPanel implements Runnable {
             apple.setCoords(newApple());
         }
 
+        // Snake Self Collision
+        if(snake.checkSelfCollision()) {
+            running = false;
+        }
+
     }
 
     public void update() {
 
         moveCounter++;
         if(moveCounter >= MOVE_DELAY) {
+            snake.update();
             checkCollisions();
             moveCounter = 0;
         }
-
-        snake.update();
 
         // Call paintComponent After Updating
         repaint();

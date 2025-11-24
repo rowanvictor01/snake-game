@@ -34,6 +34,22 @@ public class Snake implements Entity{
 
     }
 
+    public boolean checkSelfCollision() {
+
+        boolean hasCollided = false;
+
+        for(int i = 0; i < bodyParts - 1; i++) {
+
+            if(head.equals(bodyCoords.get(i))) {
+                hasCollided = true;
+            }
+
+        }
+
+        return hasCollided;
+
+    }
+
     public List getBodyCoords() {
         return bodyCoords;
     }
@@ -55,6 +71,7 @@ public class Snake implements Entity{
     public void increment() {
         this.bodyParts++;
         this.applesEaten++;
+        updateBodyCoords();
     }
 
     public void setDirection(char direction) {
@@ -69,14 +86,16 @@ public class Snake implements Entity{
         return this.head;
     }
 
-    private void movement() {
-
+    private void shiftSnakeSegments() {
         for(int i = bodyParts - 1; i > 0; i--) {
-
             x[i] = x[i - 1];
             y[i] = y[i -1];
-
         }
+    }
+
+    private void movement() {
+
+        shiftSnakeSegments();
 
         switch(direction) {
 
@@ -102,16 +121,7 @@ public class Snake implements Entity{
 
     @Override
     public void update() {
-
-        moveCounter++;
-
-        if(moveCounter >= MOVE_DELAY) {
-
-            movement();
-            moveCounter = 0;
-
-        }
-
+        movement();
     }
 
     @Override
