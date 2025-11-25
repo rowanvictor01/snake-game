@@ -79,8 +79,8 @@ public class GamePanel extends JPanel implements Runnable {
             apple.setCoords(newApple());
         }
 
-        // Snake Self Collision
-        if(snake.checkSelfCollision()) {
+        // Snake Self and Border Collisions
+        if(snake.checkSelfCollision() || snake.getHeadCoords().x < 0 || snake.getHeadCoords().x > SCREEN_WIDTH || snake.getHeadCoords().y < 0 || snake.getHeadCoords().y > SCREEN_HEIGHT) {
             running = false;
         }
 
