@@ -12,20 +12,20 @@ import java.util.Random;
 public class GamePanel extends JPanel implements Runnable {
 
     // Dimensions
-    private static final int SCREEN_WIDTH = 800;
-    private static final int SCREEN_HEIGHT = 600;
-    private static final int UNIT_SIZE = 25;
-    private static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
+    private final int SCREEN_WIDTH = 800;
+    private final int SCREEN_HEIGHT = 600;
+    private final int UNIT_SIZE = 25;
+    private final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
 
-    private static boolean running = true;
+    private boolean running = true;
 
-    private static int moveCounter = 0;
-    private static final int MOVE_DELAY = 6;
+    private int moveCounter = 0;
+    private final int MOVE_DELAY = 6;
 
     // Game Entities
-    private static Snake snake;
-    private static Apple apple;
-    private static Random random;
+    private Snake snake;
+    private Apple apple;
+    private Random random;
 
     public GamePanel() {
 
@@ -111,6 +111,12 @@ public class GamePanel extends JPanel implements Runnable {
         // Draw Entities
         apple.draw(g2);
         snake.draw(g2);
+
+        // Draw Score Text
+        g2.setColor(Color.red);
+        g2.setFont(new Font("Ink Tree", Font.BOLD, 30));
+        FontMetrics metrics = getFontMetrics(g2.getFont());
+        g2.drawString("Score: " + snake.getApplesEaten(),(SCREEN_WIDTH - metrics.stringWidth("Score: " + snake.getApplesEaten())) / 2, g2.getFont().getSize());
 
     }
 

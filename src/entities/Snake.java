@@ -38,6 +38,10 @@ public class Snake implements Entity{
 
     }
 
+    public int getApplesEaten() {
+        return this.applesEaten;
+    }
+
     public boolean checkSelfCollision() {
 
         updateBodyCoords();
