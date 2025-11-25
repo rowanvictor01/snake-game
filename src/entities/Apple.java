@@ -16,6 +16,15 @@ public class Apple implements Entity {
 
     }
 
+    public void setCoords(Point p) {
+        this.x = p.x;
+        this.y = p.y;
+    }
+
+    public Point getCoords() {
+        return new Point(this.x, this.y);
+    }
+
     @Override
     public void update() {
     }

@@ -1,12 +1,17 @@
 package entities;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Snake implements Entity{
 
     private int UNIT_SIZE;
     private int[] x;
     private int[] y;
+    private Point head;
+    private List<Point> bodyCoords;
+    private int listSize;
     private int bodyParts = 6;
     private int applesEaten = 0;
     private char direction = 'R';
@@ -16,9 +21,65 @@ public class Snake implements Entity{
     public Snake(int UNIT_SIZE, int GAME_UNITS) {
 
         this.UNIT_SIZE = UNIT_SIZE;
-        x = new int[GAME_UNITS];
-        y = new int[GAME_UNITS];
+        this.x = new int[GAME_UNITS];
+        this.y = new int[GAME_UNITS];
+        this.head = new Point(x[0], y[0]);
+        this.bodyCoords = new ArrayList<>();
 
+        for(int i = 0; i < bodyParts; i++) {
+            x[i] = (UNIT_SIZE * bodyParts * 2) - (i * UNIT_SIZE);
+        }
+
+        for(int i = 1; i < bodyParts; i++) {
+            bodyCoords.add(new Point(x[i], y[i]));
+        }
+
+        listSize = bodyCoords.size();
+
+    }
+
+    public int getApplesEaten() {
+        return this.applesEaten;
+    }
+
+    public boolean checkSelfCollision() {
+
+        updateBodyCoords();
+        boolean hasCollided = false;
+
+        for(int i = 0; i < bodyParts - 1; i++) {
+
+            if(head.equals(bodyCoords.get(i))) {
+                hasCollided = true;
+            }
+
+        }
+
+        return hasCollided;
+
+    }
+
+    public List getBodyCoords() {
+        return bodyCoords;
+    }
+
+    private void updateBodyCoords() {
+
+        if(listSize != (bodyParts - 1)) {
+            bodyCoords.add(new Point(x[bodyParts - 1], y[bodyParts - 1]));
+        }
+
+        for(int i = 1; i < bodyParts; i++) {
+
+            bodyCoords.set(i - 1, new Point(x[i], y[i]));
+
+        }
+
+    }
+
+    public void increment() {
+        this.bodyParts++;
+        this.applesEaten++;
     }
 
     public void setDirection(char direction) {
@@ -29,14 +90,20 @@ public class Snake implements Entity{
         return this.direction;
     }
 
-    private void movement() {
+    public Point getHeadCoords() {
+        return this.head;
+    }
 
-        for(int i = bodyParts - 1; i > 0; i--) {
-
+    private void shiftSnakeSegments() {
+        for(int i = bodyParts; i > 0; i--) {
             x[i] = x[i - 1];
             y[i] = y[i -1];
-
         }
+    }
+
+    private void movement() {
+
+        shiftSnakeSegments();
 
         switch(direction) {
 
@@ -55,20 +122,14 @@ public class Snake implements Entity{
 
         }
 
+        head.setLocation(x[0], y[0]);
+        updateBodyCoords();
+
     }
 
     @Override
     public void update() {
-
-        moveCounter++;
-
-        if(moveCounter >= MOVE_DELAY) {
-
-            movement();
-            moveCounter = 0;
-
-        }
-
+        movement();
     }
 
     @Override
