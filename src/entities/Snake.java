@@ -26,6 +26,10 @@ public class Snake implements Entity{
         this.head = new Point(x[0], y[0]);
         this.bodyCoords = new ArrayList<>();
 
+        for(int i = 0; i < bodyParts; i++) {
+            x[i] = (UNIT_SIZE * bodyParts * 2) - (i * UNIT_SIZE);
+        }
+
         for(int i = 1; i < bodyParts; i++) {
             bodyCoords.add(new Point(x[i], y[i]));
         }
@@ -36,6 +40,7 @@ public class Snake implements Entity{
 
     public boolean checkSelfCollision() {
 
+        updateBodyCoords();
         boolean hasCollided = false;
 
         for(int i = 0; i < bodyParts - 1; i++) {
@@ -71,7 +76,6 @@ public class Snake implements Entity{
     public void increment() {
         this.bodyParts++;
         this.applesEaten++;
-        updateBodyCoords();
     }
 
     public void setDirection(char direction) {
@@ -87,7 +91,7 @@ public class Snake implements Entity{
     }
 
     private void shiftSnakeSegments() {
-        for(int i = bodyParts - 1; i > 0; i--) {
+        for(int i = bodyParts; i > 0; i--) {
             x[i] = x[i - 1];
             y[i] = y[i -1];
         }
