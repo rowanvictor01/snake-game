@@ -1,4 +1,4 @@
-package main;
+package panels;
 
 import entities.Apple;
 import entities.Snake;

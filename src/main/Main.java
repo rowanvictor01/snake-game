@@ -1,15 +1,15 @@
 package main;
 
+import panels.GameController;
+import panels.State;
+
 public class Main {
 
    public static void main(String[] args) {
-       Window window = new Window();
-       startGamePanel(window.getGamePanel());
-   }
 
-   public static void startGamePanel(GamePanel gp) {
-       Thread gameThread = new Thread(gp);
-       gameThread.start();
+       GameController controller = new GameController();
+       controller.switchStates(State.MAIN_MENU);
+
    }
 
 }

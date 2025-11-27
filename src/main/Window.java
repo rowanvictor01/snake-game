@@ -1,10 +1,10 @@
 package main;
 
+import panels.GamePanel;
+
 import javax.swing.*;
 
 public class Window extends JFrame {
-
-    private final GamePanel gamePanel;
 
     public Window() {
 
@@ -12,17 +12,6 @@ public class Window extends JFrame {
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.gamePanel = new GamePanel();
-        this.add(gamePanel);
-        this.pack();
-
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-
-    }
-
-    public GamePanel getGamePanel() {
-        return gamePanel;
     }
 
 }
