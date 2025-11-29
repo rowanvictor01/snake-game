@@ -16,8 +16,10 @@ public class GamePanel extends JPanel implements Runnable {
     private final int SCREEN_HEIGHT = 600;
     private final int UNIT_SIZE = 25;
     private final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / UNIT_SIZE;
+    private GameController controller;
+    private Thread gameThread;
 
-    private boolean running = true;
+    protected volatile boolean running = false;
 
     private int moveCounter = 0;
     private final int MOVE_DELAY = 6;
@@ -27,12 +29,13 @@ public class GamePanel extends JPanel implements Runnable {
     private Apple apple;
     private Random random;
 
-    public GamePanel() {
+    public GamePanel(GameController controller) {
 
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setFocusable(true);
         this.addKeyListener(new KeyHandler());
+        this.controller = controller;
 
         random = new Random();
         snake = new Snake(UNIT_SIZE, GAME_UNITS);
@@ -81,9 +84,28 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Snake Self and Border Collisions
         if(snake.checkSelfCollision() || snake.getHeadCoords().x < 0 || snake.getHeadCoords().x > SCREEN_WIDTH || snake.getHeadCoords().y < 0 || snake.getHeadCoords().y > SCREEN_HEIGHT) {
-            running = false;
+            controller.switchStates(State.GAME_OVER);
         }
 
+    }
+
+    public void startGame() {
+        running = true;
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    public void stopGame() {
+        running = false;
+        gameThread.interrupt(); // sets the interrupt status to true meaning thread should consider stopping
+    }
+
+    public void waitForStop() {
+        try {
+            gameThread.join(1000); // wait for the thread to close i.e. waiting for run method for game loop to close
+        } catch(InterruptedException e) {
+            Thread.currentThread().interrupt(); // restore the interrupt status back to true again since the exception resets it
+        }
     }
 
     public void update() {
@@ -141,7 +163,6 @@ public class GamePanel extends JPanel implements Runnable {
                 try {
                     Thread.sleep(sleepTime);
                 } catch(InterruptedException e) {
-                    Thread.currentThread().interrupt();
                     break;
                 }
 

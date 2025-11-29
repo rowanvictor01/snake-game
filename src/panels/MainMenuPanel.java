@@ -10,41 +10,48 @@ public class MainMenuPanel extends JPanel {
     private final int SCREEN_HEIGTH = 600;
     private GameController controller;
 
-    private JButton startButton;
-    private JButton quitButton;
+    private JButton startBtn;
+    private JButton quitBtn;
     private Font btnFont;
     private GridBagConstraints gbc;
 
     public MainMenuPanel(GameController controller) {
 
+        // Setup Panel
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGTH));
-        setBackground(Color.blue);
+        setBackground(Color.black);
         setFocusable(true);
+
+        // State Manager
+        this.controller = controller;
+
+        // Setup Layout inside Panel
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
 
-        this.controller = controller;
-
+        // Btn Coordinates
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 0, 10, 0); // button top and bottom margin
 
         btnFont = new Font("SansSerif", Font.BOLD, 20);
 
-        startButton = new JButton("Start Game");
-        startButton.setFont(btnFont);
-        startButton.setFocusable(false);
-        startButton.addActionListener(e -> controller.switchStates(State.GAME));
+        // Start Button
+        startBtn = new JButton("Start Game");
+        startBtn.setFont(btnFont);
+        startBtn.setFocusable(false);
+        startBtn.addActionListener(e -> controller.switchStates(State.GAME));
 
-        quitButton = new JButton("Quit");
-        quitButton.setFont(btnFont);
-        quitButton.setFocusable(false);
-        quitButton.addActionListener(e -> System.exit(0));
+        // Quit Button
+        quitBtn = new JButton("Quit");
+        quitBtn.setFont(btnFont);
+        quitBtn.setFocusable(false);
+        quitBtn.addActionListener(e -> System.exit(0));
 
-        add(startButton, gbc);
+        // Add Btns to Panel
+        add(startBtn, gbc);
         gbc.gridy++;
-
-        add(quitButton, gbc);
+        add(quitBtn, gbc);
 
     }
 

@@ -14,8 +14,7 @@ public class GameController {
 
         this.window = new Window();
         this.mainMenuPanel = new MainMenuPanel(this);
-        this.gamePanel = new GamePanel();
-        this.gameOverPanel = new GameOverPanel();
+        this.gameOverPanel = new GameOverPanel(this);
 
     }
 
@@ -29,12 +28,17 @@ public class GameController {
             case State.MAIN_MENU -> window.add(mainMenuPanel);
 
             case State.GAME -> {
+                gamePanel = new GamePanel(this);
                 window.add(gamePanel);
-                startGamePanel(gamePanel);
+                gamePanel.startGame();
                 gamePanel.requestFocusInWindow();
             }
 
-            case State.GAME_OVER -> window.add(gameOverPanel);
+            case State.GAME_OVER -> {
+                gamePanel.stopGame();
+                gamePanel.waitForStop();
+                window.add(gameOverPanel);
+            }
 
         }
 
@@ -45,11 +49,6 @@ public class GameController {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
-    }
-
-    private void startGamePanel(GamePanel gp) {
-        Thread gameThread = new Thread(gp);
-        gameThread.start();
     }
 
 }
