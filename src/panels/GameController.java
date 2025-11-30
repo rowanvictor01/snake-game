@@ -35,6 +35,8 @@ public class GameController {
             }
 
             case State.GAME_OVER -> {
+                gameOverPanel.setFinalScore(gamePanel.finalScore);
+                gameOverPanel.updateScoreLabel();
                 gamePanel.stopGame();
                 gamePanel.waitForStop();
                 window.add(gameOverPanel);

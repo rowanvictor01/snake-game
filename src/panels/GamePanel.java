@@ -19,10 +19,12 @@ public class GamePanel extends JPanel implements Runnable {
     private GameController controller;
     private Thread gameThread;
 
-    protected volatile boolean running = false;
+    protected boolean running = false;
 
     private int moveCounter = 0;
     private final int MOVE_DELAY = 6;
+
+    protected int finalScore;
 
     // Game Entities
     private Snake snake;
@@ -84,6 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Snake Self and Border Collisions
         if(snake.checkSelfCollision() || snake.getHeadCoords().x < 0 || snake.getHeadCoords().x > SCREEN_WIDTH || snake.getHeadCoords().y < 0 || snake.getHeadCoords().y > SCREEN_HEIGHT) {
+            finalScore = snake.getApplesEaten();
             controller.switchStates(State.GAME_OVER);
         }
 

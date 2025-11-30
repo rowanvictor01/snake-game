@@ -3,6 +3,7 @@ package panels;
 import javax.swing.JPanel;
 import java.awt.*;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class GameOverPanel extends JPanel {
 
@@ -14,6 +15,10 @@ public class GameOverPanel extends JPanel {
     private JButton quitBtn;
     private Font btnFont;
     private GridBagConstraints gbc;
+
+    private JLabel titleLabel;
+    private JLabel scoreLabel;
+    private int finalScore;
 
     public GameOverPanel(GameController controller) {
 
@@ -29,12 +34,26 @@ public class GameOverPanel extends JPanel {
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
 
-        // Btn coordinates
+        // Coordinates
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 0, 10, 0);
 
         btnFont = new Font("SansSerif", Font.BOLD, 20);
+
+        // Labels
+        titleLabel = new JLabel("GAME OVER!");
+        titleLabel.setForeground(Color.white);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
+        add(titleLabel, gbc);
+        gbc.gridy += 2;
+
+        scoreLabel = new JLabel();
+        scoreLabel.setForeground(Color.white);
+        scoreLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        add(scoreLabel, gbc);
+
+        gbc.gridy += 6;
 
         // Play Again Button
         playAgainBtn = new JButton("Play Again");
@@ -52,6 +71,14 @@ public class GameOverPanel extends JPanel {
         gbc.gridy++;
         add(quitBtn, gbc);
 
+    }
+
+    public void updateScoreLabel() {
+        scoreLabel.setText("Score: " + finalScore);
+    }
+
+    public void setFinalScore(int finalScore) {
+        this.finalScore = finalScore;
     }
 
 }
