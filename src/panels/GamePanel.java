@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int moveCounter = 0;
     private final int MOVE_DELAY = 6;
 
-    protected int finalScore;
+    private int finalScore;
 
     // Game Entities
     private Snake snake;
@@ -44,6 +44,10 @@ public class GamePanel extends JPanel implements Runnable {
         Point newAppleCoords = newApple();
         apple = new Apple(newAppleCoords.x, newAppleCoords.y, UNIT_SIZE);
 
+    }
+
+    public int getFinalScore() {
+        return finalScore;
     }
 
     private Point newApple() {

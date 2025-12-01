@@ -36,7 +36,7 @@ public class GameController {
             }
 
             case State.GAME_OVER -> {
-                gameOverPanel.setFinalScore(gamePanel.finalScore);
+                gameOverPanel.setFinalScore(gamePanel.getFinalScore());
                 gameOverPanel.updateScoreLabel();
                 checkNewHighScore();
                 gamePanel.stopGame();
@@ -56,9 +56,9 @@ public class GameController {
     }
 
     private void checkNewHighScore() {
-        if(gamePanel.finalScore > HighScoreManager.loadHighScore()) {
-            gameOverPanel.updateHighScoreLabel(gamePanel.finalScore);
-            HighScoreManager.saveHighScore(gamePanel.finalScore);
+        if(gamePanel.getFinalScore() > HighScoreManager.loadHighScore()) {
+            gameOverPanel.updateHighScoreLabel(gamePanel.getFinalScore());
+            HighScoreManager.saveHighScore(gamePanel.getFinalScore());
         }
     }
 
