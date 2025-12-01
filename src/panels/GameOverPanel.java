@@ -1,5 +1,7 @@
 package panels;
 
+import utils.HighScoreManager;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ public class GameOverPanel extends JPanel {
 
     private JLabel titleLabel;
     private JLabel scoreLabel;
+    private JLabel highScoreLabel;
     private int finalScore;
 
     public GameOverPanel(GameController controller) {
@@ -41,13 +44,21 @@ public class GameOverPanel extends JPanel {
 
         btnFont = new Font("SansSerif", Font.BOLD, 20);
 
-        // Labels
+        // Game Over text
         titleLabel = new JLabel("GAME OVER!");
         titleLabel.setForeground(Color.white);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
         add(titleLabel, gbc);
         gbc.gridy += 2;
 
+        // High Score
+        highScoreLabel = new JLabel("Record High: " + HighScoreManager.loadHighScore());
+        highScoreLabel.setForeground(Color.white);
+        highScoreLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        add(highScoreLabel, gbc);
+        gbc.gridy += 2;
+
+        // Player Score
         scoreLabel = new JLabel();
         scoreLabel.setForeground(Color.white);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 22));
@@ -73,8 +84,12 @@ public class GameOverPanel extends JPanel {
 
     }
 
+    public void updateHighScoreLabel(int newHighScore) {
+        highScoreLabel.setText("Highest Record: " + newHighScore);
+    }
+
     public void updateScoreLabel() {
-        scoreLabel.setText("Score: " + finalScore);
+        scoreLabel.setText("Final Score: " + finalScore);
     }
 
     public void setFinalScore(int finalScore) {

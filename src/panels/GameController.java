@@ -1,6 +1,7 @@
 package panels;
 
 import main.Window;
+import utils.HighScoreManager;
 
 public class GameController {
 
@@ -37,6 +38,7 @@ public class GameController {
             case State.GAME_OVER -> {
                 gameOverPanel.setFinalScore(gamePanel.finalScore);
                 gameOverPanel.updateScoreLabel();
+                checkNewHighScore();
                 gamePanel.stopGame();
                 gamePanel.waitForStop();
                 window.add(gameOverPanel);
@@ -51,6 +53,13 @@ public class GameController {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+    }
+
+    private void checkNewHighScore() {
+        if(gamePanel.finalScore > HighScoreManager.loadHighScore()) {
+            gameOverPanel.updateHighScoreLabel(gamePanel.finalScore);
+            HighScoreManager.saveHighScore(gamePanel.finalScore);
+        }
     }
 
 }
