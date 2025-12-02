@@ -2,6 +2,7 @@ package panels;
 
 import entities.Apple;
 import entities.Snake;
+import utils.SpriteManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -136,6 +137,10 @@ public class GamePanel extends JPanel implements Runnable {
         // Preparation
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g2);
+
+        // Draw Background
+        Image bg = SpriteManager.get("game-bg");
+        g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
 
         // Draw Entities
         apple.draw(g2);
