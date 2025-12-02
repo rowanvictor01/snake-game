@@ -16,8 +16,8 @@ public class SpriteManager {
         load("game-bg", "/bg/TileableBackGround.png");
 
         //Sprites
-        load("snake-head", "/sprites/snakesprites/png/snake_green_head_64.png");
-        load("snake-body", "/sprites/snakesprites/png/snake_green_blob_64.png");
+        load("snake-head", "/sprites/snakesprites/png/snake_yellow_head_64.png");
+        load("snake-body", "/sprites/snakesprites/png/snake_yellow_blob_64.png");
         load("apple", "/sprites/apples_pack_30x30px/apple_regular_30_30px.png");
     }
 

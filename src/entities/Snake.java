@@ -1,5 +1,8 @@
 package entities;
 
+import panels.GamePanel;
+import utils.SpriteManager;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,15 @@ public class Snake implements Entity{
     private int moveCounter = 0;
     private final int MOVE_DELAY = 6;
 
-    public Snake(int UNIT_SIZE, int GAME_UNITS) {
+    private GamePanel gp;
+    private Image headSprite;
+    private Image bodySprite;
+
+    public Snake(int UNIT_SIZE, int GAME_UNITS, GamePanel gp) {
+
+        this.gp = gp;
+        headSprite = SpriteManager.get("snake-head");
+        bodySprite = SpriteManager.get("snake-body");
 
         this.UNIT_SIZE = UNIT_SIZE;
         this.x = new int[GAME_UNITS];
@@ -135,9 +146,12 @@ public class Snake implements Entity{
     @Override
     public void draw(Graphics2D g2) {
 
-        for(int i = 0; i < bodyParts; i++) {
-            g2.setColor(Color.green);
-            g2.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+        // head
+        g2.drawImage(headSprite, x[0], y[0], UNIT_SIZE, UNIT_SIZE, gp );
+
+        // body
+        for(int i = 1; i < bodyParts; i++) {
+            g2.drawImage(bodySprite, x[i], y[i], UNIT_SIZE, UNIT_SIZE, gp);
         }
 
     }
