@@ -1,5 +1,8 @@
 package entities;
 
+import utils.SpriteManager;
+import panels.GamePanel;
+
 import java.awt.*;
 
 public class Apple implements Entity {
@@ -8,7 +11,13 @@ public class Apple implements Entity {
     private int x;
     private int y;
 
-    public Apple(int x, int y, int UNIT_SIZE) {
+    private GamePanel gp;
+    private Image appleSprite;
+
+    public Apple(int x, int y, int UNIT_SIZE, GamePanel gp) {
+
+        this.gp = gp;
+        appleSprite = SpriteManager.get("apple");
 
         this.UNIT_SIZE = UNIT_SIZE;
         this.x = x;
@@ -31,8 +40,7 @@ public class Apple implements Entity {
 
     @Override
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.red);
-        g2.fillOval(x, y, UNIT_SIZE, UNIT_SIZE);
+        g2.drawImage(appleSprite, x, y, UNIT_SIZE, UNIT_SIZE, gp);
     }
 
 }

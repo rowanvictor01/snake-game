@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
         random = new Random();
         snake = new Snake(UNIT_SIZE, GAME_UNITS, this);
         Point newAppleCoords = newApple();
-        apple = new Apple(newAppleCoords.x, newAppleCoords.y, UNIT_SIZE);
+        apple = new Apple(newAppleCoords.x, newAppleCoords.y, UNIT_SIZE, this);
 
     }
 
