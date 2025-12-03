@@ -33,6 +33,7 @@ public class GameController {
                 SoundManager.stopGameOverMusic();
                 gamePanel = new GamePanel(this);
                 window.add(gamePanel);
+                SoundManager.playSfx("snake-hiss");
                 SoundManager.playGameMusic();
                 gamePanel.startGame();
                 gamePanel.requestFocusInWindow();

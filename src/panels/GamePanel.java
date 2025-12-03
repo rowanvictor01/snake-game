@@ -2,6 +2,7 @@ package panels;
 
 import entities.Apple;
 import entities.Snake;
+import utils.SoundManager;
 import utils.SpriteManager;
 
 import javax.swing.*;
@@ -87,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
         if(snake.getHeadCoords().equals(apple.getCoords())) {
             snake.increment();
             apple.setCoords(newApple());
+            SoundManager.playSfx("biting-apple");
         }
 
         // Snake Self and Border Collisions
