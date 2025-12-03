@@ -149,7 +149,7 @@ public class GamePanel extends JPanel implements Runnable {
         snake.draw(g2);
 
         // Draw Score Text
-        g2.setColor(Color.red);
+        g2.setColor(Color.white);
         g2.setFont(new Font("Ink Tree", Font.BOLD, 30));
         FontMetrics metrics = getFontMetrics(g2.getFont());
         g2.drawString("Score: " + snake.getApplesEaten(),(SCREEN_WIDTH - metrics.stringWidth("Score: " + snake.getApplesEaten())) / 2, g2.getFont().getSize());
