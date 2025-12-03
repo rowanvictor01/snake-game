@@ -1,13 +1,13 @@
 # 🐍 Snake Game
 
-A polished, feature-rich implementation of the classic Snake arcade game, built entirely in **Java Swing**. This project demonstrates robust game architecture, clean OOP design, and modern Java practices—all while delivering a smooth, nostalgic gaming experience.
+An implementation of the classic Snake arcade game, built entirely in **Java Swing**.
 
 ![Snake Game Screenshot](screenshot.png)
 
 ## ✨ Features
 
 - **Complete game states**: Main Menu, Gameplay, Game Over
-- **Visual polish**: Custom sprites, themed backgrounds, and smooth animations
+- **Visual polish**: Sprites, themed backgrounds, and smooth animations
 - **Audio**: Background music + sound effects (hiss, apple crunch, game over)
 - **Persistence**: High score saved between sessions
 - **Responsive controls**: Arrow keys
@@ -37,15 +37,21 @@ A polished, feature-rich implementation of the classic Snake arcade game, built 
 ```bash
 git clone https://github.com/rowanvictor01/snake-game.git
 cd snake-game
-./gradlew run          # if using Gradle
-# OR
-mvn compile exec:java  # if using Maven
+
+# Linux/macOS
+javac -d out $(find src -name "*.java")
+
+# Windows Powershell
+javac -d out (Get-ChildItem src -Recurse -Include *.java).FullName # Windows Powershell
+
+# Windows CMD
+javac -d out src\main\*.java src\panels\*.java src\utils\*.java src\entities\*.java
+
+java -cp out main.Main
+
 # OR
 # Import into IntelliJ/Eclipse and run `Main.java`
 ```
-
-### From JAR (if packaged)
-`java -jar snake-game.jar`
 
 ## 🎨 Assets
 
