@@ -2,6 +2,8 @@ package panels;
 
 import entities.Apple;
 import entities.Snake;
+import utils.SoundManager;
+import utils.SpriteManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,9 +42,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.controller = controller;
 
         random = new Random();
-        snake = new Snake(UNIT_SIZE, GAME_UNITS);
+        snake = new Snake(UNIT_SIZE, GAME_UNITS, this);
         Point newAppleCoords = newApple();
-        apple = new Apple(newAppleCoords.x, newAppleCoords.y, UNIT_SIZE);
+        apple = new Apple(newAppleCoords.x, newAppleCoords.y, UNIT_SIZE, this);
 
     }
 
@@ -86,6 +88,7 @@ public class GamePanel extends JPanel implements Runnable {
         if(snake.getHeadCoords().equals(apple.getCoords())) {
             snake.increment();
             apple.setCoords(newApple());
+            SoundManager.playSfx("biting-apple");
         }
 
         // Snake Self and Border Collisions
@@ -136,6 +139,10 @@ public class GamePanel extends JPanel implements Runnable {
         // Preparation
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g2);
+
+        // Draw Background
+        Image bg = SpriteManager.get("game-bg");
+        g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
 
         // Draw Entities
         apple.draw(g2);

@@ -2,6 +2,7 @@ package panels;
 
 import main.Window;
 import utils.HighScoreManager;
+import utils.SoundManager;
 
 public class GameController {
 
@@ -29,13 +30,19 @@ public class GameController {
             case State.MAIN_MENU -> window.add(mainMenuPanel);
 
             case State.GAME -> {
+                SoundManager.stopGameOverMusic();
                 gamePanel = new GamePanel(this);
                 window.add(gamePanel);
+                SoundManager.playSfx("snake-hiss");
+                SoundManager.playGameMusic();
                 gamePanel.startGame();
                 gamePanel.requestFocusInWindow();
             }
 
             case State.GAME_OVER -> {
+                SoundManager.stopGameMusic();
+                SoundManager.playGameOverMusic();
+
                 gameOverPanel.setFinalScore(gamePanel.getFinalScore());
                 gameOverPanel.updateScoreLabel();
                 checkNewHighScore();
